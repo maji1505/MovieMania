@@ -9,7 +9,7 @@ function Explore() {
   const [pageNo,setPageNo]=useState(1);
   const [data,setData]=useState([]);
   const[totalPageNO,setTotalPageNO]=useState(0);
-  console.log(params);
+  // console.log(params);
   
   const fetchData=async ()=>{
     try{

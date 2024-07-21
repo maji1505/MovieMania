@@ -41,10 +41,10 @@ function Header() {
                     }
                  </nav>
                  <div className='ml-auto flex items-center gap-4'>
-                    <form className='flex items-center  gap-1 sm:hidden md:flex' onSubmit={handleSubmit}>
+                    <form className='flex items-center  gap-1 ' onSubmit={handleSubmit}>
                         <input type="text" placeholder='Search here...' className='bg-transparent px-4 py-1 outline-none hidden md:block'
                         onChange={(e)=>setSearchInput(e.target.value)} value={removeSpace}/>
-                    <button className='text-2xl text-white'>
+                    <button className='text-2xl text-white hidden md:block'>
                     <IoSearch/>
                     </button>
                     </form>

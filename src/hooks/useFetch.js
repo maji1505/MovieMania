@@ -12,7 +12,7 @@ import axios from "axios";
           const response =await axios.get(endpoint);
           setLoading(false);
           setData(response.data.results);
-          console.log(response.data.results);
+          // console.log(response.data.results);
         }catch(error){
           console.log(error);
         }

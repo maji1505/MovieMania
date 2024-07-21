@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useFetcher, useParams } from 'react-router-dom'
 import useFetch from '../hooks/useFetch';
 import useFetchDetails from '../hooks/fetchDetails';
@@ -7,6 +7,9 @@ import moment from 'moment';
 import Devider from '../components/Devider';
 import { Container } from 'postcss';
 import HorizontalCard from '../components/HorizontalCard';
+import Video from '../components/Video';
+
+
 function Detail() {
   const params = useParams();
   const imageURL = useSelector(state => state.movieoData.imageURL);
@@ -14,15 +17,16 @@ function Detail() {
   const { data: castData } = useFetchDetails(`/${params.explore}/${params?.id}/credits`)
   const {data:similarData}=useFetch(`/${params.explore}/${params?.id}/similar`)
   const {data:recomendedData}=useFetch(`/${params.explore}/${params?.id}/recommendations`)
+  const [playVideo,setPlayVideo]=useState(false);
+  const [playVideoId,setPlayVideoId]=useState("");
   
-  console.log(castData);
-  console.log(data);
-
-
   if (!data) {
     return <div>Loading...</div>;
   }
-  console.log(data.number_of_seasons)
+  const handlePlayVideo=(data)=>{
+ setPlayVideoId(data);
+ setPlayVideo(true);
+  }
 
   const duration = (data?.runtime/60).toFixed(1).split(".");
   return (
@@ -36,6 +40,10 @@ function Detail() {
       <div className='container  mx-auto px-3 py-16 md:py-0 flex flex-col gap-4 md:flex-row md:gap-10'>
         <div className='md:-mt-24 relative mx-auto w-fit md:mx-0 min-w-60'>
           <img src={imageURL + data?.poster_path} alt="" className='h-[320px] w-64  md:w-60 rounded object-cover' />
+          <button className='bg-white px-8 py-2 text-black font-bold rounded mt-3 hover:bg-gradient-to-l from-red-700 to-orange-500 shadow-md transition-all hover:scale-105'
+          onClick={()=>handlePlayVideo(data)}>
+                                    Play Now
+                                </button>
         </div>
         <div>
           <h2 className='text-2xl font-bold text-white md:text-3xl'>{data.title || data.name}</h2>
@@ -97,6 +105,9 @@ function Detail() {
         <HorizontalCard data={similarData} heading={'Similar ' + params.explore}  media_type={params.explore}/>
         <HorizontalCard data={recomendedData} heading={'Recommendation ' + params.explore}  media_type={params.explore}/>
       </div>
+      {
+        playVideo && (<Video data={playVideoId} close={()=>setPlayVideo(false)} media_type={params?.explore}/>)
+      }
     </div>
   )
 }
